@@ -10,7 +10,7 @@ categories: []
 date: 2021-01-26T13:16:32Z
 lastmod: 2021-01-26T13:16:32Z
 featured: false
-draft: true
+draft: false
 math: true
 diagrams: true
 
@@ -46,26 +46,17 @@ All this becomes clearer in the example, taken from Morrison's paper, below. The
 
 This Directed Acyclic Graph (DAG) encodes every possible maximal independent set. Every feasible path from the root node till the terminal node $\top$ represents a maximal independent set. The set it represented by nodes that have high branches coming out. For example, feasible path $v_1, v_2, v_3, v_4,\top$ represents an maximal independent set ${v_2, v_4}$ as these are the only nodes with solid (high) branches. There are several important properties of the ZDD that I skip here, like the uniqueness of nodes in $Z_s$, each node is encountered only once, etc. 
 
-The ZDD can now be used to enumerate all maximal independent sets and support non-trivial operations that would be expensive otherwise, e.g. a count of all maximal independent sets without listing each one.
+The ZDD can now be used to enumerate all maximal independent sets and support non-trivial operations that would be expensive otherwise, e.g. a count of all maximal independent sets without listing each one. There are other advantages as well. For instance, if there is a need to repeatedly query this ZDD, for example when node weights change, then one can compute this efficiently. Mostly, ZDD offer a compact representation of the underlying set.
 
 # Constructing a ZDD
 
+To do all of this, the ZDD needs to be constructed first. There are few methods to do this for each class of problem you want to solve. [Morrison et al. (2014)](https://doi.org/10.1007/s10878-014-9722-4), for example, tackle the case of the maximal independent set.  
 
-
-
-# Extracting independent sets
-
+In this case, they describe an algorithm that takes as input a graph and a vertex ordering (this ordering can be arbitrary - but does have an influence on the size of the ZDD). The procedure is recursive, and it each iteration a single node is considered. It first considers if a maximal set can be constructed from the remaining vertices. Remaining here are w.r.t. to the ordering. It also checks if the set is already maximal. For these two cases, the procedure returns with the terminal nodes, i.e. $\bot$ or $\top$. If these conditions are not met, it creates two branches for the current node based on the next undominated node. A new node is added if it hasn't previously been created. 
 
 # Reference implementation
 
+A reference implementation is forthcoming (when time permits!). 
 
-# Other use cases 
+There are existing packages like [graphmillion](https://github.com/takemaru/graphillion) that provide powerful abstractions for common problem classes. See also their accompanying [paper](https://doi.org/10.1007/s10009-014-0352-z). [Azove](http://people.mpi-inf.mpg.de/alumni/d1/2019/behle/azove.html) is another tool (uses binary decision diagrams) for vertex enumeration that may be of interest as well.
 
-0/1 Enumeration
-http://people.mpi-inf.mpg.de/alumni/d1/2019/behle/azove.html
-
-# Packages
-https://github.com/takemaru/graphillion
-https://doi.org/10.1007/s10009-014-0352-z
-
-dd?
